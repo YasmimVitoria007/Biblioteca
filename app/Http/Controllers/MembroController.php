@@ -19,4 +19,50 @@ class MembroController extends Controller
         $membros = Membro::all();
         return response()->json($membros);
     }
+     public function update(Request $request)
+    {
+        $membro= Membro::find($request->id);
+        if ($membro == null) {
+            return response()->json([
+                'erro' => 'Membro não encontrado'
+            ]);
+
+            if (isset($request->nome_completo)) {
+                $membro->titulo = $request->titulo;
+            }
+            if (isset($request->endereco)) {
+                $membro->endereco = $request->endereco;
+            }
+            if (isset($request->telefone)) {
+                $membro->telefone = $request->telefone;
+            }
+        }
+        $membro->update();
+        return response()->json([
+            'mensagem' => 'atualizada'
+        ]);
+    }
+    public function show($id)
+    {
+        $membro = Membro::find($id);
+        if ($membro == null) {
+            return response()->json([
+                'erro' => 'Membro não encontrado'
+            ]);
+        }
+        return response()->json($membro);
+    }
+    public function delete($id)
+    {
+        $membro = Membro::find($id);
+        if ($membro == null) {
+            return response()->json([
+                'erro' => 'Membro não encontrado'
+            ]);
+            $membro->delete();
+            return response()->json([
+                'Mensagem' => 'excluido'
+            ]);
+        }
+    }
 }
